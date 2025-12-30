@@ -28,15 +28,27 @@ jobs:
           pip install -e .
           pip install pyinstaller
 
-      - name: Build executable
+      - name: Build standalone executable
         run: |
           pyinstaller Argus_Overview.spec
 
-      - name: Upload artifact
+      - name: Build installer with Inno Setup
+        run: |
+          # Inno Setup is pre-installed on windows-latest
+          & "C:\Program Files (x86)\Inno Setup 6\ISCC.exe" installer.iss
+
+      - name: Upload standalone exe
         uses: actions/upload-artifact@v4
         with:
-          name: Argus_Overview-Windows
+          name: Argus_Overview-Standalone
           path: dist/Argus_Overview.exe
+          retention-days: 30
+
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: Argus_Overview-Installer
+          path: dist/Argus_Overview_Setup_*.exe
           retention-days: 30
 
   release:
@@ -47,15 +59,36 @@ jobs:
       contents: write
 
     steps:
-      - name: Download artifact
+      - name: Download standalone
         uses: actions/download-artifact@v4
         with:
-          name: Argus_Overview-Windows
+          name: Argus_Overview-Standalone
+          path: standalone
+
+      - name: Download installer
+        uses: actions/download-artifact@v4
+        with:
+          name: Argus_Overview-Installer
+          path: installer
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
         with:
-          files: Argus_Overview.exe
+          files: |
+            standalone/Argus_Overview.exe
+            installer/Argus_Overview_Setup_*.exe
           generate_release_notes: true
+          body: |
+            ## Downloads
+
+            **Choose one:**
+            - `Argus_Overview.exe` - Standalone portable executable (no install needed)
+            - `Argus_Overview_Setup_*.exe` - Installer with Start Menu shortcuts
+
+            ### Standalone (.exe)
+            Just download and run. No installation required. Put it anywhere you like.
+
+            ### Installer
+            Creates Start Menu shortcut, optional Desktop shortcut, and proper uninstall via Windows Settings.
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
