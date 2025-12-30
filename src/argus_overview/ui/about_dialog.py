@@ -32,7 +32,7 @@ class AboutDialog(QDialog):
         layout.addWidget(title)
 
         # Version
-        version = QLabel("Version 2.3 - ActionRegistry Edition")
+        version = QLabel("Version 2.4.2")
         version_font = QFont()
         version_font.setPointSize(12)
         version.setFont(version_font)

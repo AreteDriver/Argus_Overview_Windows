@@ -128,7 +128,7 @@ def main():
     setup_logging()
 
     logger = logging.getLogger(__name__)
-    logger.info("Starting Argus Overview v2.4 - Windows Edition")
+    logger.info("Starting Argus Overview v2.4.2 - Windows Edition")
 
     single_instance = SingleInstance()
     if not single_instance.try_lock():
