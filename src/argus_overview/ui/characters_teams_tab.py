@@ -783,24 +783,38 @@ class CharactersTeamsTab(QWidget):
                 return
 
             # Import into character manager
-            imported = self.character_manager.import_from_eve_sync(eve_characters)
+            imported, skipped_unknown, already_exists = self.character_manager.import_from_eve_sync(eve_characters)
 
             # Refresh table
             self.character_table.populate_table()
 
-            # Show results
+            # Build detailed message
+            message_lines = [
+                f"Found {len(eve_characters)} character settings in EVE files.",
+                "",
+                f"   Imported: {imported} new characters",
+                f"   Already in database: {already_exists}",
+            ]
+
+            if skipped_unknown > 0:
+                message_lines.extend([
+                    f"   Skipped: {skipped_unknown} (no game log found)",
+                    "",
+                    "Note: Characters without game logs can't be identified.",
+                    "Log in with those characters in EVE to create log files,",
+                    "then scan again."
+                ])
+
             QMessageBox.information(
                 self,
                 "Import Complete",
-                f"Found {len(eve_characters)} characters in EVE files.\n"
-                f"Imported {imported} new characters.\n"
-                f"({len(eve_characters) - imported} were already in database)"
+                "\n".join(message_lines)
             )
 
             # Emit signal
             self.characters_imported.emit(imported)
 
-            self.logger.info(f"EVE folder scan complete: {imported} new characters imported")
+            self.logger.info(f"EVE folder scan complete: {imported} new, {skipped_unknown} unknown, {already_exists} existing")
 
         except Exception as e:
             self.logger.error(f"EVE folder scan failed: {e}")

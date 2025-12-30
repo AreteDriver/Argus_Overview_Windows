@@ -282,22 +282,35 @@ class CharacterManager:
         return [char for char in self.characters.values() if char.window_id]
 
     # Import from EVE files
-    def import_from_eve_sync(self, eve_characters: List) -> int:
+    def import_from_eve_sync(self, eve_characters: List) -> tuple:
         """Import characters discovered from EVE installation files
 
         Args:
             eve_characters: List of EVECharacterInfo objects from EVESettingsSync
 
         Returns:
-            Number of new characters imported
+            Tuple of (imported_count, skipped_unknown_count, already_exists_count)
+            - imported_count: New characters successfully imported
+            - skipped_unknown: Characters skipped because name couldn't be resolved
+            - already_exists: Characters already in database
         """
         imported = 0
+        skipped_unknown = 0
+        already_exists = 0
 
         for eve_char in eve_characters:
             char_name = eve_char.character_name
 
+            # Skip characters we couldn't identify (no game log found)
+            # These show up as "Character_12345678" format
+            if char_name.startswith("Character_"):
+                skipped_unknown += 1
+                self.logger.debug(f"Skipping unidentified character: {char_name}")
+                continue
+
             # Skip if already exists
             if char_name in self.characters:
+                already_exists += 1
                 # Update last_seen if we have new data
                 if eve_char.last_seen:
                     self.characters[char_name].last_seen = eve_char.last_seen.isoformat()
@@ -322,7 +335,8 @@ class CharacterManager:
             self.save_data()
             self.logger.info(f"Imported {imported} new characters from EVE files")
 
-        return imported
+        self.logger.info(f"Import summary: {imported} new, {skipped_unknown} unknown, {already_exists} existing")
+        return (imported, skipped_unknown, already_exists)
 
     # Auto-detection
     def auto_assign_windows(self, windows: List[tuple]) -> Dict[str, str]:
