@@ -8,9 +8,14 @@ Professional multi-boxing tool for EVE Online on Windows.
 
 ## Download
 
-**[Download Latest Release (Argus_Overview.exe)](https://github.com/AreteDriver/Argus_Overview_Windows/releases/latest)**
+**[Download Latest Release](https://github.com/AreteDriver/Argus_Overview_Windows/releases/latest)**
 
-No installation required - just download and run!
+| Option | File | Description |
+|--------|------|-------------|
+| **Portable** | `Argus_Overview.exe` | Just download and run - no installation needed |
+| **Installer** | `Argus_Overview_Setup_*.exe` | Creates Start Menu shortcuts, optional Desktop shortcut, proper uninstall |
+
+Choose **Portable** if you want simplicity. Choose **Installer** if you want shortcuts and Windows integration.
 
 ## Features
 
