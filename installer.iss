@@ -2,7 +2,7 @@
 ; Build with: iscc installer.iss
 
 #define MyAppName "Argus Overview"
-#define MyAppVersion "2.4.2"
+#define MyAppVersion "2.4.3"
 #define MyAppPublisher "AreteDriver"
 #define MyAppURL "https://github.com/AreteDriver/Argus_Overview_Windows"
 #define MyAppExeName "Argus_Overview.exe"
