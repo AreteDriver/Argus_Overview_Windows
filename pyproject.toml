@@ -1,6 +1,6 @@
 [project]
 name = "argus-overview-windows"
-version = "2.4.4"
+version = "2.4.6"
 description = "Professional multi-boxing tool for EVE Online on Windows"
 readme = "README.md"
 license = {text = "MIT"}
