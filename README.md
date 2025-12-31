@@ -2,6 +2,7 @@
 
 Professional multi-boxing tool for EVE Online on Windows.
 
+[![CI](https://github.com/AreteDriver/Argus_Overview_Windows/actions/workflows/ci.yml/badge.svg)](https://github.com/AreteDriver/Argus_Overview_Windows/actions/workflows/ci.yml)
 [![Build Windows EXE](https://github.com/AreteDriver/Argus_Overview_Windows/actions/workflows/build.yml/badge.svg)](https://github.com/AreteDriver/Argus_Overview_Windows/actions/workflows/build.yml)
 [![Release](https://img.shields.io/github/v/release/AreteDriver/Argus_Overview_Windows)](https://github.com/AreteDriver/Argus_Overview_Windows/releases/latest)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
