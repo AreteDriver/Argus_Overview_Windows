@@ -67,7 +67,7 @@ class SingleInstance:
             self.lock_file = open(lock_path, 'w')
             msvcrt.locking(self.lock_file.fileno(), msvcrt.LK_NBLCK, 1)
             return True
-        except:
+        except (OSError, IOError):
             return False
 
     def release(self):
@@ -76,7 +76,7 @@ class SingleInstance:
             try:
                 import win32api
                 win32api.CloseHandle(self.mutex)
-            except:
+            except (ImportError, OSError):
                 pass
             self.mutex = None
 

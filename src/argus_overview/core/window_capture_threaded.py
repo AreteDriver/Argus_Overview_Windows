@@ -204,7 +204,7 @@ class WindowCaptureThreaded:
         try:
             hwnd_int = int(hwnd, 16)
             return win32gui.GetWindowText(hwnd_int)
-        except:
+        except (ValueError, Exception):
             return "Unknown"
 
     def minimize_window(self, hwnd: str):

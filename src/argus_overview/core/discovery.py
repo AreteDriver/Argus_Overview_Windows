@@ -12,7 +12,6 @@ from typing import Callable, Dict, List, Optional, Set, Tuple
 from PySide6.QtCore import QObject, QTimer, Signal
 
 try:
-    import win32con
     import win32gui
     HAS_WIN32 = True
 except ImportError:

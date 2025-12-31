@@ -5,7 +5,6 @@ v2.2: Added one-click import, hover effects, activity indicators, session timers
 v2.3: Merged layouts functionality - group-based window arrangement
 """
 import logging
-import re
 from dataclasses import dataclass
 from datetime import datetime
 from typing import Dict, List, Optional, Tuple
