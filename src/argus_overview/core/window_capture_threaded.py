@@ -102,7 +102,7 @@ class WindowCaptureThreaded:
             saveDC.SelectObject(saveBitMap)
 
             # Copy window content to bitmap
-            result = windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), 3)
+            windll.user32.PrintWindow(hwnd, saveDC.GetSafeHdc(), 3)
 
             # Convert to PIL Image
             bmpinfo = saveBitMap.GetInfo()
