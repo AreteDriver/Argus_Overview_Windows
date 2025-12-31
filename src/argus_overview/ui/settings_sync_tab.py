@@ -507,10 +507,10 @@ class SettingsSyncTab(QWidget):
                 # Select members in target list
                 for i in range(self.target_list.count()):
                     item = self.target_list.item(i)
-                    if item.text() in team.members:
+                    if item.text() in team.characters:
                         item.setSelected(True)
 
-                self._log(f"Selected team '{team_name}' ({len(team.members)} members)")
+                self._log(f"Selected team '{team_name}' ({len(team.characters)} members)")
 
     def _select_all_targets(self):
         """Select all target characters"""

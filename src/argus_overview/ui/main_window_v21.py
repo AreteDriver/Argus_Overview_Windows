@@ -222,11 +222,16 @@ class MainWindowV21(QMainWindow):
         return None
 
     @Slot()
-    def _cycle_next(self):
+    def _cycle_next(self, _attempts: int = 0):
         """Cycle to next window in group"""
         members = self._get_cycling_group_members()
         if not members:
             self.logger.warning("No members in cycling group")
+            return
+
+        # Guard against infinite recursion
+        if _attempts >= len(members):
+            self.logger.warning("No active windows found in cycling group")
             return
 
         # Advance index
@@ -240,15 +245,20 @@ class MainWindowV21(QMainWindow):
             self.logger.info(f"Cycled to: {char_name} ({self.cycling_index + 1}/{len(members)})")
         else:
             self.logger.warning(f"Character '{char_name}' not found in active windows")
-            # Try next one
-            self._cycle_next()
+            # Try next one (with attempt counter)
+            self._cycle_next(_attempts + 1)
 
     @Slot()
-    def _cycle_prev(self):
+    def _cycle_prev(self, _attempts: int = 0):
         """Cycle to previous window in group"""
         members = self._get_cycling_group_members()
         if not members:
             self.logger.warning("No members in cycling group")
+            return
+
+        # Guard against infinite recursion
+        if _attempts >= len(members):
+            self.logger.warning("No active windows found in cycling group")
             return
 
         # Go back in index
@@ -262,8 +272,8 @@ class MainWindowV21(QMainWindow):
             self.logger.info(f"Cycled to: {char_name} ({self.cycling_index + 1}/{len(members)})")
         else:
             self.logger.warning(f"Character '{char_name}' not found in active windows")
-            # Try previous one
-            self._cycle_prev()
+            # Try previous one (with attempt counter)
+            self._cycle_prev(_attempts + 1)
 
     def _activate_window(self, window_id: str):
         """Activate a window by ID using Win32 API"""
